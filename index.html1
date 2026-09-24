@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ambulance GPS</title>
+</head>
+<body>
+  <h2>Ambulance GPS Location</h2>
+
+  <button onclick="startGPS()">Start Ambulance GPS</button>
+
+  <p id="status">GPS not started</p>
+  <p id="latitude">Latitude: --</p>
+  <p id="longitude">Longitude: --</p>
+
+  <script>
+    function startGPS() {
+      if (!navigator.geolocation) {
+        document.getElementById("status").textContent =
+          "GPS is not supported by this browser.";
+        return;
+      }
+
+      document.getElementById("status").textContent =
+        "Getting ambulance location...";
+
+      navigator.geolocation.watchPosition(
+        function(position) {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+
+          document.getElementById("status").textContent =
+            "Ambulance GPS is working";
+
+          document.getElementById("latitude").textContent =
+            "Ambulance Latitude: " + lat;
+
+          document.getElementById("longitude").textContent =
+            "Ambulance Longitude: " + lon;
+        },
+        function(error) {
+          document.getElementById("status").textContent =
+            "Location error: " + error.message;
+        },
+        {
+          enableHighAccuracy: true,
+          maximumAge: 0,
+          timeout: 20000
+        }
+      );
+    }
+  </script>
+</body>
+</html>
